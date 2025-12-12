@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aslani Handyman | Professional Home Services</title>
+    <script src="https://unpkg.com/gsap@3.9.0/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3.9.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            /* Monochromatic Palette */
+            --white: #FFFFFF;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #EEEEEE;
+            --gray-300: #E0E0E0;
+            --gray-400: #BDBDBD;
+            --gray-500: #9E9E9E;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #212121;
+            --black: #000000;
+            
+            /* Brand Colors */
+            --primary: var(--gray-900);
+            --secondary: var(--gray-700);
+            --accent: var(--gray-800);
+            --surface: var(--white);
+            --background: var(--white);
+            --border: var(--gray-200);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --space-4xl: 6rem;
+            
+            /* Typography Scale */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--gray-900);
+            background: var(--background);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            color: var(--primary);
+        }
+
+        p {
+            color: var(--gray-700);
+            line-height: 1.7;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        /* Utility Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+
+        /* Loading Screen - Professional Minimalist */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity var(--transition-slow);
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-logo {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--space-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            transform: translateX(-100%);
+            animation: loading-line 2s ease-in-out infinite;
+        }
+
+        .loading-progress {
+            width: 240px;
+            margin-top: var(--space-xl);
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 1px;
+            background: var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            transition: width var(--transition-base);
+        }
+
+        /* Animations */
+        @keyframes loading-line {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Header - NOT sticky */
+        .header {
+            position: static;
+            width: 100%;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all var(--transition-base);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: var(--text-xl);
+            transition: color var(--transition-fast);
+        }
+
+        .logo:hover {
+            color: var(--accent);
+        }
+
+        /* Navigation */
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2xl);
+        }
+
+        .nav-link {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-size: var(--text-sm);
+            font-weight: 500;
+            position: relative;
+            padding: var(--space-xs) 0;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: var(--space-sm) var(--space-xl);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            transition: all var(--transition-base);
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-sm);
+            z-index: 1001;
+        }
+
+        .hamburger {
+            display: block;
+            position: relative;
+            width: 24px;
+            height: 2px;
+            background: var(--primary);
+            transition: all var(--transition-base);
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 2px;
+            background: var(--primary);
+            transition: all var(--transition-base);
+        }
+
+        .hamburger::before {
+            top: -8px;
+        }
+
+        .hamburger::after {
+            bottom: -8px;
+        }
+
+        .mobile-nav-toggle.active .hamburger {
+            background: transparent;
+        }
+
+        .mobile-nav-toggle.active .hamburger::before {
+            transform: rotate(45deg) translate(5px, 8px);
+        }
+
+        .mobile-nav-toggle.active .hamburger::after {
+            transform: rotate(-45deg) translate(5px, -8px);
+        }
+
+        .mobile-nav {
+            position: absolute;
+            top: 72px;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            padding: var(--space-xl);
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mobile-nav.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .mobile-nav-link {
+            color: var(--gray-700);
+            text-decoration: none;
+            font-size: var(--text-base);
+            font-weight: 500;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border);
+            transition: color var(--transition-fast);
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: var(--space-3xl) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+
+        .hero-content {
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            background: var(--gray-100);
+            color: var(--primary);
+            padding: var(--space-xs) var(--space-lg);
+            border-radius: var(--radius-2xl);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            margin-bottom: var(--space-xl);
+            border: 1px solid var(--border);
+        }
+
+        .hero-title {
+            font-size: var(--text-5xl);
+            font-weight: 700;
+            margin-bottom: var(--space-xl);
+            line-height: 1.1;
+        }
+
+        .hero-description {
+            font-size: var(--text-lg);
+            color: var(--gray-600);
+            margin-bottom: var(--space-2xl);
+            max-width: 520px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-2xl);
+            font-size: var(--text-base);
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-features {
+            display: flex;
+            gap: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: var(--text-sm);
+            border: 1px solid var(--border);
+        }
+
+        .feature-text {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .hero-image {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            height: 520px;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Services Section */
+        .services {
+            padding: var(--space-4xl) 0;
+            background: var(--gray-50);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+
+        .section-title {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+        }
+
+        .section-subtitle {
+            font-size: var(--text-lg);
+            color: var(--gray-600);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            transition: all var(--transition-base);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--primary);
+            transition: height var(--transition-base);
+        }
+
+        .service-card:hover::before {
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gray-100);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-lg);
+            color: var(--primary);
+            font-size: var(--text-xl);
+            transition: all var(--transition-base);
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--primary);
+            color: var(--white);
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .service-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .service-description {
+            color: var(--gray-600);
+            margin-bottom: var(--space-lg);
+        }
+
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: var(--text-sm);
+            transition: gap var(--transition-base);
+        }
+
+        .service-link:hover {
+            gap: var(--space-md);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: var(--space-4xl) 0;
+            background: var(--primary);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            opacity: 0.9;
+        }
+
+        .stats-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-2xl);
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: var(--space-xl);
+        }
+
+        .stat-number {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            color: var(--white);
+        }
+
+        .stat-label {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: var(--space-4xl) 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            border: 1px solid var(--border);
+            transition: all var(--transition-base);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .testimonial-content {
+            font-size: var(--text-base);
+            color: var(--gray-700);
+            margin-bottom: var(--space-xl);
+            line-height: 1.7;
+            position: relative;
+            padding-left: var(--space-lg);
+        }
+
+        .testimonial-content::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: var(--text-4xl);
+            color: var(--gray-300);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: var(--text-lg);
+            border: 2px solid var(--border);
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+            color: var(--primary);
+        }
+
+        .author-location {
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: var(--space-4xl) 0;
+            background: var(--gray-50);
+        }
+
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+
+        .faq-question {
+            padding: var(--space-lg);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color var(--transition-fast);
+        }
+
+        .faq-question:hover {
+            background: var(--gray-50);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-base);
+        }
+
+        .faq-answer.active {
+            max-height: 400px;
+        }
+
+        .faq-answer-content {
+            padding: 0 var(--space-lg) var(--space-lg);
+        }
+
+        .faq-icon {
+            transition: transform var(--transition-base);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: var(--space-4xl) 0;
+            background: var(--primary);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+        }
+
+        .cta-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .cta-description {
+            font-size: var(--text-lg);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 640px;
+            margin: 0 auto var(--space-2xl);
+        }
+
+        .cta-phone {
+            display: inline-block;
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            margin-bottom: var(--space-xl);
+            transition: transform var(--transition-base);
+        }
+
+        .cta-phone:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            padding: var(--space-4xl) 0 var(--space-xl);
+            background: var(--gray-900);
+            color: var(--white);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .footer-section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .footer-title {
+            font-size: var(--text-lg);
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .footer-link:hover {
+            color: var(--white);
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .contact-text {
+            flex: 1;
+        }
+
+        .contact-label {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .contact-value {
+            font-weight: 500;
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            padding-top: var(--space-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: var(--text-sm);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-3xl);
+            }
+
+            .hero-image {
+                height: 400px;
+                order: -1;
+            }
+
+            .hero-content {
+                order: 1;
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-features {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: var(--text-4xl);
+            }
+
+            .hero-description {
+                font-size: var(--text-base);
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: var(--text-3xl);
+            }
+
+            .cta-title {
+                font-size: var(--text-3xl);
+            }
+
+            .cta-phone {
+                font-size: var(--text-2xl);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 var(--space-lg);
+            }
+
+            .hero-title {
+                font-size: var(--text-3xl);
+            }
+
+            .hero-image {
+                height: 300px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">ASLANI HANDYMAN</div>
+            <div class="loading-progress">
+                <div class="progress-track">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-tools"></i>
+                <span>ASLANI</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="nav-desktop">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="tel:+14696570977" class="nav-link nav-cta">
+                    <i class="fas fa-phone"></i> Call Now
+                </a>
+            </nav>
+
+            <!-- Mobile Navigation Toggle -->
+            <button class="mobile-nav-toggle" id="mobileNavToggle">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobileNav">
+            <div class="container">
+                <div class="mobile-nav-links">
+                    <a href="#" class="mobile-nav-link">Home</a>
+                    <a href="service.html" class="mobile-nav-link">Services</a>
+                    <a href="contact.html" class="mobile-nav-link">contact</a>
+                    <a href="aboutus.html" class="mobile-nav-link">About</a>
+                    <a href="consultation.html" class="mobile-nav-link">consultation</a>
+                    <a href="mailto:handymanaslani@gmail.com" class="mobile-nav-link">Email Us</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i> 5.0 Customer Rating
+                    </div>
+                    <h1 class="hero-title">Professional Handyman Services</h1>
+                    <p class="hero-description">
+                        Expert repairs, installations, and maintenance for your home. 
+                        Quality craftsmanship with transparent pricing and reliable service.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="consultation.html" class="btn btn-primary">
+                            <i class="fas fa-phone"></i> Schedule Service
+                        </a>
+                        <a href="service.html" class="btn btn-secondary">
+                            <i class="fas fa-tools"></i> View Services
+                        </a>
+                    </div>
+                    <div class="hero-features">
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="feature-text">24/7 Emergency Service</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-text">Work Warranty</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="feature-text">No Hidden Fees</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="image/image1.jpeg" alt="Professional handyman service">
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Services</h2>
+                    <p class="section-subtitle">
+                        Comprehensive home repair and maintenance services with professional craftsmanship
+                    </p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <i class="fas fa-faucet"></i>
+                        </div>
+                        <h3 class="service-title">Plumbing Services</h3>
+                        <p class="service-description">
+                            Expert repair, replacement, and installation of all plumbing fixtures with precision.
+                        </p>
+                        <a href="service.html" class="service-link">
+                            Learn More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <i class="fas fa-door-closed"></i>
+                        </div>
+                        <h3 class="service-title">Door & Lock Repairs</h3>
+                        <p class="service-description">
+                            Professional repair and replacement of doors, locks, hinges, and security hardware.
+                        </p>
+                        <a href="service.html" class="service-link">
+                            Learn More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <i class="fas fa-couch"></i>
+                        </div>
+                        <h3 class="service-title">Furniture Assembly</h3>
+                        <p class="service-description">
+                            Precise assembly of all furniture types with care and attention to detail.
+                        </p>
+                        <a href="service.html" class="service-link">
+                            Learn More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="container stats-container">
+                <div class="stats-grid">
+                    <div class="stat-item fade-in">
+                        <div class="stat-number" data-count="500">0</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <div class="stat-number" data-count="5.0">5.0</div>
+                        <div class="stat-label">Customer Rating</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <div class="stat-number" data-count="24">24</div>
+                        <div class="stat-label">Hour Emergency Service</div>
+                    </div>
+                    <div class="stat-item fade-in">
+                        <div class="stat-number" data-count="100">0</div>
+                        <div class="stat-label">Services Offered</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Client Testimonials</h2>
+                    <p class="section-subtitle">
+                        Trusted by homeowners across the Greater Dallas Area
+                    </p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in">
+                        <div class="testimonial-content">
+                            Aslani Handyman Service saved my kitchen renovation. The plumbing work was impeccable and they finished ahead of schedule! Professional, clean, and reasonably priced.
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SJ</div>
+                            <div class="author-info">
+                                <div class="author-name">Sarah Johnson</div>
+                                <div class="author-location">McKinney, TX</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in">
+                        <div class="testimonial-content">
+                            Professional, on-time, and excellent workmanship. They assembled my entire bedroom set perfectly. Highly recommend! Will definitely use them again for future projects.
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MC</div>
+                            <div class="author-info">
+                                <div class="author-name">Michael Chen</div>
+                                <div class="author-location">Frisco, TX</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in">
+                        <div class="testimonial-content">
+                            Emergency plumbing repair at 9 PM on a Sunday! These guys are lifesavers. Fair pricing and top-notch service. Couldn't ask for better emergency service.
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">RW</div>
+                            <div class="author-info">
+                                <div class="author-name">Robert Williams</div>
+                                <div class="author-location">Plano, TX</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">
+                        Find answers to common questions about our services
+                    </p>
+                </div>
+                <div class="faq-grid">
+                    <div class="faq-item fade-in">
+                        <div class="faq-question">
+                            <span>How is Aslani Handyman Service rated?</span>
+                            <i class="fas fa-plus faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>Aslani Handyman Service is currently rated 5.0 overall out of 5 stars by our satisfied customers. We consistently receive perfect ratings for reliability, quality work, and customer service.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-in">
+                        <div class="faq-question">
+                            <span>What are your business hours?</span>
+                            <i class="fas fa-plus faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>We're open 7 days a week, from 7 AM to 10 PM, to serve your needs whenever they arise. For emergencies, we offer 24/7 service with no additional charges.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-in">
+                        <div class="faq-question">
+                            <span>Do you offer free estimates?</span>
+                            <i class="fas fa-plus faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <p>Yes, we offer free, no-obligation project estimates. Contact us for a detailed quote with transparent pricing and no hidden fees.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="container cta-container">
+                <h2 class="cta-title">Ready for Professional Service?</h2>
+                <p class="cta-description">
+                    Contact us today for a free consultation and estimate. We're here to help with all your home repair and maintenance needs with quality you can trust.
+                </p>
+                <a href="tel:+14696570977" class="cta-phone">(469) 657-0977</a>
+                <a href="tel:+14696570977" class="btn btn-primary">
+                    <i class="fas fa-phone"></i> Call Now
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 class="footer-title">Aslani Handyman</h3>
+                    <p>Professional, reliable handyman services in the Greater Dallas Area. Expert repairs, installations, and assembly with quality you can trust.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Home</a></li>
+                        <li><a href="#services" class="footer-link">Services</a></li>
+                        <li><a href="#testimonials" class="footer-link">Testimonials</a></li>
+                        <li><a href="#faq" class="footer-link">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Contact</h3>
+                    <div class="footer-contact">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">
+                                <div class="contact-label">Phone</div>
+                                <div class="contact-value">(469) 657-0977</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <div class="contact-label">Email</div>
+                                <div class="contact-value">handymanaslani@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <div class="contact-label">Location</div>
+                                <div class="contact-value">McKinney, TX 75071</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 real american technologies . All rights reserved.</p>
+                </div>
+        </div>
+    </footer>
+
+    <script>
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const progressBar = document.getElementById('progressBar');
+            const header = document.getElementById('header');
+            const mobileNavToggle = document.getElementById('mobileNavToggle');
+            const mobileNav = document.getElementById('mobileNav');
+
+            // Professional loading animation
+            let progress = 0;
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 5 + 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
+                    
+                    // Fade out loading screen
+                    gsap.to(loadingScreen, {
+                        opacity: 0,
+                        duration: 0.6,
+                        ease: "power2.inOut",
+                        onComplete: () => {
+                            loadingScreen.style.display = "none";
+                            initPageAnimations();
+                        }
+                    });
+                }
+                progressBar.style.width = `${progress}%`;
+            }, 100);
+
+            function initPageAnimations() {
+                // Mobile navigation
+                mobileNavToggle.addEventListener('click', () => {
+                    mobileNavToggle.classList.toggle('active');
+                    mobileNav.classList.toggle('active');
+                    
+                    if (mobileNav.classList.contains('active')) {
+                        gsap.fromTo(mobileNav,
+                            { opacity: 0, y: -20 },
+                            { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
+                        );
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Close mobile nav when clicking links
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNavToggle.classList.remove('active');
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // FAQ functionality
+                document.querySelectorAll('.faq-question').forEach(question => {
+                    question.addEventListener('click', () => {
+                        const item = question.parentElement;
+                        const answer = question.nextElementSibling;
+                        const isActive = item.classList.contains('active');
+                        
+                        // Close all FAQ items
+                        document.querySelectorAll('.faq-item').forEach(item => {
+                            item.classList.remove('active');
+                            item.querySelector('.faq-answer').classList.remove('active');
+                        });
+                        
+                        // Open clicked item if it wasn't active
+                        if (!isActive) {
+                            item.classList.add('active');
+                            answer.classList.add('active');
+                            
+                            // Animate answer opening
+                            gsap.fromTo(answer,
+                                { maxHeight: 0 },
+                                { maxHeight: '400px', duration: 0.4, ease: "power2.out" }
+                            );
+                        }
+                    });
+                });
+
+                // Animate elements on scroll
+                gsap.utils.toArray('.fade-in').forEach(element => {
+                    gsap.fromTo(element,
+                        {
+                            opacity: 0,
+                            y: 30
+                        },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: element,
+                                start: "top 85%",
+                                toggleActions: "play none none reverse"
+                            }
+                        }
+                    );
+                });
+
+                // Animate stats numbers
+                document.querySelectorAll('.stat-number').forEach(stat => {
+                    const target = parseInt(stat.getAttribute('data-count'));
+                    const isDecimal = stat.textContent.includes('.');
+                    
+                    ScrollTrigger.create({
+                        trigger: stat,
+                        start: "top 90%",
+                        onEnter: () => {
+                            let current = 0;
+                            const increment = target / 50;
+                            const updateStat = () => {
+                                current += increment;
+                                if (current >= target) {
+                                    current = target;
+                                    clearInterval(timer);
+                                }
+                                stat.textContent = isDecimal ? 
+                                    current.toFixed(1) : 
+                                    Math.floor(current);
+                            };
+                            const timer = setInterval(updateStat, 30);
+                        }
+                    });
+                });
+
+                // Service card hover effects
+                document.querySelectorAll('.service-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        gsap.to(card, {
+                            y: -8,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        gsap.to(card, {
+                            y: 0,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+                    });
+                });
+
+                // Testimonial card animations
+                document.querySelectorAll('.testimonial-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        gsap.to(card, {
+                            scale: 1.02,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        gsap.to(card, {
+                            scale: 1,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+                    });
+                });
+
+                // Hero image float animation
+                gsap.to('.hero-image', {
+                    y: 10,
+                    duration: 2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+
+                // Button hover animations
+                document.querySelectorAll('.btn-primary').forEach(btn => {
+                    btn.addEventListener('mouseenter', (e) => {
+                        gsap.to(e.target, {
+                            scale: 1.05,
+                            duration: 0.2,
+                            ease: "power2.out"
+                        });
+                    });
+                    
+                    btn.addEventListener('mouseleave', (e) => {
+                        gsap.to(e.target, {
+                            scale: 1,
+                            duration: 0.2,
+                            ease: "power2.out"
+                        });
+                    });
+                });
+
+                // Smooth scroll for anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        if (targetId === '#') return;
+                        
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            // Close mobile nav if open
+                            mobileNavToggle.classList.remove('active');
+                            mobileNav.classList.remove('active');
+                            document.body.style.overflow = '';
+                            
+                            gsap.to(window, {
+                                duration: 0.8,
+                                scrollTo: {
+                                    y: target,
+                                    offsetY: 80
+                                },
+                                ease: "power2.inOut"
+                            });
+                        }
+                    });
+                });
+            }
+
+            // Close mobile nav on window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    mobileNavToggle.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

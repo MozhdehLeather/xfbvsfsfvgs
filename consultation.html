@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Consultation | Aslani Handyman</title>
+    <script src="https://unpkg.com/gsap@3.9.0/dist/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #f8f9fa;
+            --border: #e8e8e8;
+            --text: #1a1a1a;
+            --text-light: #666666;
+            --accent: #111111;
+            --accent-glow: rgba(17, 17, 17, 0.1);
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --error: #EF4444;
+            --error-light: #FEE2E2;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            --radius: 12px;
+            --radius-sm: 6px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+            
+            /* Typography */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--accent);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--accent);
+            gap: 0.8rem;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+            min-height: calc(100vh - 160px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booking-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Booking Header */
+        .booking-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .booking-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .booking-header h1 {
+            font-family: var(--font-heading);
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .booking-header p {
+            color: var(--text-light);
+            font-size: var(--text-lg);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: var(--text-sm);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label i {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            background: var(--bg);
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .form-input.error,
+        .form-select.error,
+        .form-textarea.error {
+            border-color: var(--error);
+            background: var(--error-light);
+        }
+
+        .form-input.success,
+        .form-select.success,
+        .form-textarea.success {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .location-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-btn {
+            flex: 1;
+            padding: 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .location-btn:hover {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .location-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .location-btn i {
+            font-size: 1.2rem;
+        }
+
+        .gps-status {
+            margin-top: 0.5rem;
+            font-size: var(--text-sm);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gps-loading {
+            color: var(--accent);
+        }
+
+        .gps-success {
+            color: var(--success);
+        }
+
+        .gps-error {
+            color: var(--error);
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .form-note {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+            max-width: 300px;
+        }
+
+        .form-note i {
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+
+        .submit-btn {
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: var(--text);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.loading {
+            color: transparent;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--bg);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Paper Animation Container */
+        .paper-animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .paper-plane {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+        }
+
+        .paper-plane svg {
+            width: 80px;
+            height: 80px;
+            color: var(--accent);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Success Ticket */
+        .ticket-container {
+            display: none;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+        }
+
+        .ticket-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .ticket-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--surface);
+            box-shadow: var(--shadow);
+            background: var(--bg);
+        }
+
+        .ticket-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ticket-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--success);
+            color: var(--bg);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .ticket-content h2 {
+            font-family: var(--font-heading);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .ticket-content p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: var(--text-lg);
+        }
+
+        .ticket-id {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 2rem 0;
+            display: inline-block;
+            box-shadow: var(--shadow);
+        }
+
+        .ticket-details {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        .ticket-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ticket-detail:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .detail-value {
+            color: var(--text-light);
+            text-align: right;
+            max-width: 250px;
+            word-break: break-word;
+        }
+
+        .ticket-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .ticket-btn {
+            padding: 1rem 2rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-body);
+        }
+
+        .ticket-btn.primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .ticket-btn.primary:hover {
+            background: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .ticket-btn.secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .ticket-btn.secondary:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            main {
+                padding: 1rem;
+                margin-top: 70px;
+            }
+
+            .booking-form {
+                padding: 2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+
+            .location-options {
+                flex-direction: column;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .booking-header h1 {
+                font-size: var(--text-3xl);
+            }
+
+            .ticket-container {
+                padding: 2rem 1rem;
+                margin: 1rem;
+            }
+
+            .ticket-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .booking-header h1 {
+                font-size: var(--text-2xl);
+            }
+
+            .booking-form {
+                padding: 1.5rem;
+            }
+
+            .ticket-content h2 {
+                font-size: var(--text-2xl);
+            }
+
+            .ticket-id {
+                font-size: var(--text-xl);
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        /* Error States */
+        .error-message {
+            color: var(--error);
+            font-size: var(--text-sm);
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: var(--success-light);
+            color: var(--success);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1rem;
+            border: 1px solid var(--success);
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-tools logo-icon"></i>
+                <div class="logo-text">ASLANI HANDYMAN</div>
+            </a>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="booking-container">
+            <!-- Booking Form -->
+            <div class="booking-form" id="bookingForm">
+                <div class="booking-header">
+                    <div class="booking-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h1>Book Your Consultation</h1>
+                    <p>Fill out the form below to request assistance. We'll get back to you within 24 hours.</p>
+                </div>
+
+                <form id="consultationForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i>
+                                Full Name
+                            </label>
+                            <input type="text" class="form-input" id="fullName" placeholder="Enter your full name" required>
+                            <div class="error-message" id="nameError">Please enter your full name</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-phone"></i>
+                                Phone Number
+                            </label>
+                            <input type="tel" class="form-input" id="phoneNumber" placeholder="(469) 657-0977" required>
+                            <div class="error-message" id="phoneError">Please enter a valid phone number</div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <input type="email" class="form-input" id="email" placeholder="you@example.com" required>
+                            <div class="error-message" id="emailError">Please enter a valid email address</div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Service Address
+                            </label>
+                            <div class="location-options">
+                                <button type="button" class="location-btn" id="manualAddressBtn">
+                                    <i class="fas fa-edit"></i>
+                                    Enter Manually
+                                </button>
+                                <button type="button" class="location-btn" id="gpsLocationBtn">
+                                    <i class="fas fa-location-crosshairs"></i>
+                                    Use GPS Location
+                                </button>
+                            </div>
+                            
+                            <div class="gps-status" id="gpsStatus">
+                                <i class="fas fa-info-circle"></i>
+                                Click "Use GPS Location" to detect your current address
+                            </div>
+
+                            <input type="text" class="form-input" id="address" placeholder="Enter your full address" required>
+                            <div class="error-message" id="addressError">Please enter your address</div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-tools"></i>
+                                Service Type
+                            </label>
+                            <select class="form-select" id="serviceType" required>
+                                <option value="">Select a service type</option>
+                                <option value="plumbing">Plumbing Services</option>
+                                <option value="electrical">Electrical Work</option>
+                                <option value="carpentry">Carpentry & Furniture</option>
+                                <option value="painting">Painting & Drywall</option>
+                                <option value="appliance">Appliance Installation</option>
+                                <option value="general">General Repairs</option>
+                                <option value="emergency">Emergency Service</option>
+                                <option value="other">Other (specify in message)</option>
+                            </select>
+                            <div class="error-message" id="serviceError">Please select a service type</div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-comment"></i>
+                                Message
+                            </label>
+                            <textarea class="form-textarea" id="message" placeholder="Describe what you need help with..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle"></i>
+                        Your consultation request has been submitted successfully!
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="form-note">
+                            <i class="fas fa-clock"></i>
+                            We typically respond within 2 hours during business hours
+                        </div>
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Success Ticket -->
+            <div class="ticket-container" id="ticketContainer">
+                <div class="ticket-icon">
+                    <div class="ticket-avatar">
+                        <img src="https://i.pinimg.com/736x/dc/b6/62/dcb662d47a7fdf8ba12ee5b137ea39ca.jpg" alt="Thank You" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNjAiIGN5PSI2MCIgcj0iNTgiIGZpbGw9IiMxMTExMTEiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PHRleHQgeD0iNjAiIHk9IjYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiMxMTExMTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjM1ZW0iPlRIQU5LIFlPVSE8L3RleHQ+PC9zdmc+'">
+                    </div>
+                    <div class="ticket-badge">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                
+                <div class="ticket-content">
+                    <h2>Thank You!</h2>
+                    <p>Your consultation request has been submitted successfully. We'll contact you shortly.</p>
+                    
+                    <div class="ticket-id" id="ticketId">AH-7A8B9C</div>
+                    
+                    <div class="ticket-details">
+                        <div class="ticket-detail">
+                            <span class="detail-label">Ticket ID:</span>
+                            <span class="detail-value" id="ticketIdValue">AH-7A8B9C</span>
+                        </div>
+                        <div class="ticket-detail">
+                            <span class="detail-label">Name:</span>
+                            <span class="detail-value" id="ticketName">John Doe</span>
+                        </div>
+                        <div class="ticket-detail">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value" id="ticketPhone">(469) 657-0977</span>
+                        </div>
+                        <div class="ticket-detail">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value" id="ticketEmail">john@example.com</span>
+                        </div>
+                        <div class="ticket-detail">
+                            <span class="detail-label">Address:</span>
+                            <span class="detail-value" id="ticketAddress">123 Main St, McKinney, TX</span>
+                        </div>
+                        <div class="ticket-detail">
+                            <span class="detail-label">Service:</span>
+                            <span class="detail-value" id="ticketService">Plumbing Services</span>
+                        </div>
+                        <div class="ticket-detail">
+                            <span class="detail-label">Submitted:</span>
+                            <span class="detail-value" id="ticketDate">Today at 14:30</span>
+                        </div>
+                        <div class="ticket-detail">
+                            <span class="detail-label">Status:</span>
+                            <span class="detail-value" id="ticketStatus">Submitted Successfully</span>
+                        </div>
+                    </div>
+
+                    <p>Keep this ticket ID for reference when contacting us.</p>
+                    
+                    <div class="ticket-actions">
+                        <a href="index.html" class="ticket-btn primary">
+                            <i class="fas fa-home"></i>
+                            Back to Home
+                        </a>
+                        <button class="ticket-btn secondary" id="copyTicketBtn">
+                            <i class="fas fa-copy"></i>
+                            Copy Ticket ID
+                        </button>
+                        <button class="ticket-btn secondary" id="newRequestBtn">
+                            <i class="fas fa-plus"></i>
+                            New Request
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Paper Animation Container -->
+    <div class="paper-animation-container" id="paperAnimation">
+        <div class="paper-plane" id="paperPlane">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"/>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // Telegram Configuration
+        const BOT_TOKEN = "8541461757:AAE-7yVOeiBxt16-upzklgMDyZdxPEZKUyQ";
+        const CHAT_ID = "6357527757";
+
+        // Generate unique ID
+        function generateTicketId() {
+            const prefix = 'AH-';
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 7; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return prefix + result;
+        }
+
+        // Form elements
+        const form = document.getElementById('consultationForm');
+        const bookingForm = document.getElementById('bookingForm');
+        const ticketContainer = document.getElementById('ticketContainer');
+        const paperAnimation = document.getElementById('paperAnimation');
+        const paperPlane = document.getElementById('paperPlane');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Location buttons
+        const manualAddressBtn = document.getElementById('manualAddressBtn');
+        const gpsLocationBtn = document.getElementById('gpsLocationBtn');
+        const addressInput = document.getElementById('address');
+        const gpsStatus = document.getElementById('gpsStatus');
+
+        // Error messages
+        const errorMessages = {
+            name: document.getElementById('nameError'),
+            phone: document.getElementById('phoneError'),
+            email: document.getElementById('emailError'),
+            address: document.getElementById('addressError'),
+            service: document.getElementById('serviceError')
+        };
+
+        // Ticket display elements
+        const ticketId = document.getElementById('ticketId');
+        const ticketIdValue = document.getElementById('ticketIdValue');
+        const ticketName = document.getElementById('ticketName');
+        const ticketPhone = document.getElementById('ticketPhone');
+        const ticketEmail = document.getElementById('ticketEmail');
+        const ticketAddress = document.getElementById('ticketAddress');
+        const ticketService = document.getElementById('ticketService');
+        const ticketDate = document.getElementById('ticketDate');
+        const ticketStatus = document.getElementById('ticketStatus');
+        const copyTicketBtn = document.getElementById('copyTicketBtn');
+        const newRequestBtn = document.getElementById('newRequestBtn');
+
+        let currentAddressMode = 'manual';
+        let userLocation = null;
+
+        // Initialize form
+        function initializeForm() {
+            // Set up location buttons
+            manualAddressBtn.addEventListener('click', () => setAddressMode('manual'));
+            gpsLocationBtn.addEventListener('click', getGPSLocation);
+
+            // Form submission
+            form.addEventListener('submit', handleFormSubmit);
+
+            // Copy ticket ID button
+            copyTicketBtn.addEventListener('click', copyTicketId);
+
+            // New request button
+            newRequestBtn.addEventListener('click', () => {
+                ticketContainer.style.display = 'none';
+                bookingForm.style.display = 'block';
+                form.reset();
+                setAddressMode('manual');
+                userLocation = null;
+            });
+
+            // Set default address mode
+            setAddressMode('manual');
+        }
+
+        // Set address mode
+        function setAddressMode(mode) {
+            currentAddressMode = mode;
+            
+            // Update button states
+            manualAddressBtn.classList.toggle('active', mode === 'manual');
+            gpsLocationBtn.classList.toggle('active', mode === 'gps');
+
+            // Update address input
+            if (mode === 'manual') {
+                addressInput.placeholder = 'Enter your full address';
+                addressInput.disabled = false;
+                gpsStatus.innerHTML = '<i class="fas fa-info-circle"></i> Enter your address manually';
+            }
+        }
+
+        // Get GPS location
+        function getGPSLocation() {
+            setAddressMode('gps');
+            gpsStatus.innerHTML = '<i class="fas fa-spinner fa-spin gps-loading"></i> Getting your location...';
+            addressInput.disabled = true;
+            addressInput.placeholder = 'Detecting your location...';
+
+            if (!navigator.geolocation) {
+                gpsStatus.innerHTML = '<i class="fas fa-exclamation-triangle gps-error"></i> Geolocation is not supported by your browser';
+                addressInput.disabled = false;
+                addressInput.placeholder = 'Enter your address manually';
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    try {
+                        // Reverse geocode to get address
+                        const address = await reverseGeocode(userLocation.lat, userLocation.lng);
+                        addressInput.value = address;
+                        gpsStatus.innerHTML = `<i class="fas fa-check-circle gps-success"></i> Location detected`;
+                        addressInput.disabled = false;
+                    } catch (error) {
+                        gpsStatus.innerHTML = '<i class="fas fa-exclamation-triangle gps-error"></i> Could not get address from location';
+                        addressInput.placeholder = 'Enter your address manually';
+                        addressInput.disabled = false;
+                    }
+                },
+                (error) => {
+                    let errorMessage = 'Unable to retrieve your location';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Location access denied. Please enable location services.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Location information is unavailable.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'Location request timed out.';
+                            break;
+                    }
+                    gpsStatus.innerHTML = `<i class="fas fa-exclamation-triangle gps-error"></i> ${errorMessage}`;
+                    addressInput.placeholder = 'Enter your address manually';
+                    addressInput.disabled = false;
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        // Reverse geocode coordinates to address
+        async function reverseGeocode(lat, lng) {
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+                );
+                
+                if (!response.ok) {
+                    throw new Error('Geocoding API error');
+                }
+                
+                const data = await response.json();
+                
+                if (data && data.display_name) {
+                    return data.display_name;
+                }
+                
+                throw new Error('No address found');
+            } catch (error) {
+                return `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            }
+        }
+
+        // Validate form
+        function validateForm() {
+            let isValid = true;
+            
+            // Reset errors
+            Object.values(errorMessages).forEach(error => {
+                error.classList.remove('show');
+            });
+            
+            // Reset input error states
+            document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
+                input.classList.remove('error');
+            });
+
+            // Validate name
+            const name = document.getElementById('fullName').value.trim();
+            if (!name || name.length < 2) {
+                errorMessages.name.classList.add('show');
+                document.getElementById('fullName').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate phone
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const phoneDigits = phone.replace(/\D/g, '');
+            if (!phone || phoneDigits.length < 10) {
+                errorMessages.phone.classList.add('show');
+                document.getElementById('phoneNumber').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate email
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                errorMessages.email.classList.add('show');
+                document.getElementById('email').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate address
+            const address = addressInput.value.trim();
+            if (!address || address.length < 5) {
+                errorMessages.address.classList.add('show');
+                addressInput.classList.add('error');
+                isValid = false;
+            }
+
+            // Validate service type
+            const service = document.getElementById('serviceType').value;
+            if (!service) {
+                errorMessages.service.classList.add('show');
+                document.getElementById('serviceType').classList.add('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Handle form submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+
+            try {
+                // Generate ticket ID
+                const ticketIdValue = generateTicketId();
+                
+                // Get form data
+                const formData = {
+                    name: document.getElementById('fullName').value.trim(),
+                    phone: document.getElementById('phoneNumber').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    address: addressInput.value.trim(),
+                    service: document.getElementById('serviceType').value,
+                    serviceText: document.getElementById('serviceType').options[document.getElementById('serviceType').selectedIndex].text,
+                    message: document.getElementById('message').value.trim(),
+                    ticketId: ticketIdValue,
+                    submittedAt: new Date().toLocaleString()
+                };
+
+                // Create Telegram message
+                const telegramMessage = `
+🔧 *NEW CONSULTATION REQUEST* 🔧
+
+*Ticket ID:* ${formData.ticketId}
+*Name:* ${formData.name}
+*Phone:* ${formData.phone}
+*Email:* ${formData.email}
+*Address:* ${formData.address}
+*Service Type:* ${formData.serviceText}
+*Message:* ${formData.message || 'No message provided'}
+*Time:* ${formData.submittedAt}
+
+*Submitted via Website Form*
+                `.trim();
+                
+                // Send to Telegram
+                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: telegramMessage,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                
+                const telegramData = await response.json();
+                
+                if (!telegramData.ok) {
+                    throw new Error('Telegram API error');
+                }
+                
+                // Save to localStorage
+                saveToLocalStorage(formData);
+                
+                // Show success animation
+                await showSuccessAnimation(formData);
+
+            } catch (error) {
+                // Even on error, try to save locally
+                const formData = {
+                    name: document.getElementById('fullName').value.trim(),
+                    phone: document.getElementById('phoneNumber').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    address: addressInput.value.trim(),
+                    service: document.getElementById('serviceType').value,
+                    serviceText: document.getElementById('serviceType').options[document.getElementById('serviceType').selectedIndex].text,
+                    ticketId: generateTicketId(),
+                    submittedAt: new Date().toLocaleString()
+                };
+                
+                saveToLocalStorage(formData);
+                await showSuccessAnimation(formData);
+                
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+            }
+        }
+
+        // Save to localStorage
+        function saveToLocalStorage(data) {
+            try {
+                const existingRequests = JSON.parse(localStorage.getItem('aslaniRequests') || '[]');
+                existingRequests.push({
+                    ...data,
+                    storedAt: new Date().toISOString()
+                });
+                localStorage.setItem('aslaniRequests', JSON.stringify(existingRequests));
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // Show success animation
+        async function showSuccessAnimation(formData) {
+            // Update ticket display
+            ticketId.textContent = formData.ticketId;
+            ticketIdValue.textContent = formData.ticketId;
+            ticketName.textContent = formData.name;
+            ticketPhone.textContent = formData.phone;
+            ticketEmail.textContent = formData.email;
+            ticketAddress.textContent = formData.address;
+            ticketService.textContent = formData.serviceText;
+            ticketDate.textContent = formData.submittedAt || new Date().toLocaleString();
+            ticketStatus.textContent = 'Submitted Successfully';
+
+            // Show paper animation
+            paperAnimation.style.display = 'flex';
+            
+            // Create paper plane animation
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    setTimeout(() => {
+                        paperAnimation.style.display = 'none';
+                        
+                        // Show ticket
+                        bookingForm.style.display = 'none';
+                        ticketContainer.style.display = 'block';
+                        
+                        // Scroll to top
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        
+                        // Reset form
+                        form.reset();
+                        setAddressMode('manual');
+                        userLocation = null;
+                    }, 500);
+                }
+            });
+
+            // Animate paper plane flying from form to destination
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            tl.set(paperPlane, { 
+                opacity: 1, 
+                x: -viewportWidth/2, 
+                y: viewportHeight/2, 
+                rotation: -45,
+                scale: 0.5 
+            })
+            .to(paperPlane, {
+                x: 0,
+                y: 0,
+                rotation: 0,
+                scale: 1,
+                duration: 1.2,
+                ease: "power2.out"
+            })
+            .to(paperPlane, {
+                x: viewportWidth/4,
+                y: -viewportHeight/4,
+                rotation: 30,
+                duration: 1,
+                ease: "power1.inOut"
+            })
+            .to(paperPlane, {
+                x: viewportWidth/2,
+                y: viewportHeight/4,
+                rotation: 60,
+                duration: 1,
+                ease: "power1.inOut"
+            })
+            .to(paperPlane, {
+                x: viewportWidth,
+                y: -viewportHeight,
+                rotation: 120,
+                scale: 0.3,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power2.in"
+            });
+        }
+
+        // Copy ticket ID to clipboard
+        function copyTicketId() {
+            const id = ticketId.textContent;
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(id).then(() => {
+                    showCopyFeedback();
+                }).catch(err => {
+                    fallbackCopyText(id);
+                });
+            } else {
+                fallbackCopyText(id);
+            }
+        }
+
+        // Fallback copy method
+        function fallbackCopyText(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyFeedback();
+            } catch (err) {
+                alert('Failed to copy ticket ID. Please copy manually: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Show copy feedback
+        function showCopyFeedback() {
+            const originalText = copyTicketBtn.innerHTML;
+            copyTicketBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            copyTicketBtn.style.background = 'var(--success)';
+            
+            setTimeout(() => {
+                copyTicketBtn.innerHTML = originalText;
+                copyTicketBtn.style.background = '';
+            }, 2000);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeForm);
+    </script>
+</body>
+</html>

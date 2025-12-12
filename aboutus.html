@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Aslani Handyman</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #f5f1e8;
+            --paper-color: #fffef7;
+            --ink-color: #2c2c2c;
+            --accent-color: #8b7355;
+            --light-accent: #d4c9b8;
+            --border-color: #e8e2d5;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --font-serif: 'Crimson Pro', Georgia, serif;
+            --font-sans: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-color);
+            color: var(--ink-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Loading Screen - Book Opening Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .book {
+            width: 200px;
+            height: 280px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .book-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #6d5c47 0%, #8b7355 100%);
+            border-radius: 4px 8px 8px 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            z-index: 2;
+        }
+
+        .book-spine {
+            position: absolute;
+            left: 0;
+            width: 12px;
+            height: 100%;
+            background: linear-gradient(to right, #5a4c3a 0%, #6d5c47 100%);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .book-title {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            color: #f5f1e8;
+            font-family: var(--font-serif);
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .book-pages {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--paper-color);
+            border-radius: 2px 8px 8px 2px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+            transform-origin: left center;
+            z-index: 1;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--paper-color);
+            border-radius: 2px;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .page-line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--border-color) 20%, var(--border-color) 80%, transparent 100%);
+            left: 0;
+        }
+
+        /* Letter Container */
+        .letter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Letter Paper */
+        .letter-paper {
+            background: var(--paper-color);
+            border-radius: 2px;
+            padding: 80px;
+            position: relative;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            min-height: 90vh;
+        }
+
+        /* Watermark */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 240px;
+            font-weight: 800;
+            color: rgba(139, 115, 85, 0.05);
+            font-family: var(--font-serif);
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Letter Content */
+        .letter-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Letterhead */
+        .letterhead {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .letterhead::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent-color) 50%, transparent 100%);
+        }
+
+        .company-name {
+            font-family: var(--font-serif);
+            font-size: 42px;
+            font-weight: 600;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .company-tagline {
+            font-family: var(--font-sans);
+            font-size: 16px;
+            color: var(--ink-color);
+            opacity: 0.7;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Date */
+        .letter-date {
+            text-align: right;
+            margin-bottom: 40px;
+            font-family: var(--font-serif);
+            font-size: 15px;
+            color: var(--accent-color);
+        }
+
+        /* Greeting */
+        .letter-greeting {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: var(--ink-color);
+        }
+
+        /* Body Text */
+        .letter-body {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .letter-body p {
+            margin-bottom: 24px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .drop-cap {
+            float: left;
+            font-size: 56px;
+            line-height: 1;
+            margin: 8px 12px 0 0;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Signature */
+        .letter-signature {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .signature-image {
+            width: 120px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--light-accent) 100%);
+            position: relative;
+            opacity: 0.9;
+        }
+
+        .signature-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' viewBox='0 0 120 60'%3E%3Cpath d='M20,35 Q40,25 60,35 T100,30' stroke='%23f5f1e8' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .signature-text {
+            flex: 1;
+        }
+
+        .signature-name {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+        }
+
+        .signature-title {
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--ink-color);
+            opacity: 0.7;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(139, 115, 85, 0.05);
+            border-radius: 2px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .contact-info h3 {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--paper-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-size: 16px;
+        }
+
+        .contact-text {
+            font-family: var(--font-sans);
+            font-size: 15px;
+        }
+
+        /* Footer */
+        .letter-footer {
+            margin-top: 40px;
+            text-align: center;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            color: var(--ink-color);
+            opacity: 0.6;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        /* Page Lines */
+        .page-line:nth-child(1) { top: 20%; }
+        .page-line:nth-child(2) { top: 40%; }
+        .page-line:nth-child(3) { top: 60%; }
+        .page-line:nth-child(4) { top: 80%; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .letter-paper {
+                padding: 40px 30px;
+            }
+            
+            .company-name {
+                font-size: 32px;
+            }
+            
+            .company-tagline {
+                font-size: 14px;
+                letter-spacing: 4px;
+            }
+            
+            .letter-body {
+                font-size: 16px;
+            }
+            
+            .drop-cap {
+                font-size: 48px;
+            }
+            
+            .contact-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .book {
+                width: 150px;
+                height: 210px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .letter-paper {
+                padding: 30px 20px;
+            }
+            
+            .letterhead {
+                margin-bottom: 40px;
+            }
+            
+            .letter-signature {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .watermark {
+                font-size: 160px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .letter-paper {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                padding: 60px;
+            }
+            
+            .loading-screen {
+                display: none;
+            }
+            
+            .letter-container {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen with Book Animation -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="book">
+            <div class="book-cover" id="bookCover">
+                <div class="book-spine"></div>
+                <div class="book-title">Our Story</div>
+            </div>
+            <div class="book-pages" id="bookPages">
+                <div class="page" id="pageContent">
+                    <div class="page-line"></div>
+                    <div class="page-line"></div>
+                    <div class="page-line"></div>
+                    <div class="page-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Letter Content -->
+    <div class="letter-container" id="letterContainer">
+        <div class="letter-paper">
+            <!-- Watermark -->
+            <div class="watermark">A</div>
+            
+            <!-- Letter Content -->
+            <div class="letter-content">
+                <!-- Letterhead -->
+                <div class="letterhead">
+                    <h1 class="company-name">Aslani Handyman Service</h1>
+                    <p class="company-tagline">Reliability · Professionalism · Craftsmanship</p>
+                </div>
+
+                <!-- Date -->
+                <div class="letter-date">
+                    <span id="currentDate"></span>
+                </div>
+
+                <!-- Greeting -->
+                <div class="letter-greeting">
+                    To Our Valued Clients and Neighbors,
+                </div>
+
+                <!-- Letter Body -->
+                <div class="letter-body">
+                    <p>
+                        <span class="drop-cap">A</span>s I sit down to write this letter, I'm filled with immense gratitude for the trust you've placed in our hands over the years. What began as a simple commitment to quality work has grown into something much more meaningful—a community partnership built on reliability, professionalism, and craftsmanship.
+                    </p>
+
+                    <p>
+                        Aslani Handyman Service was founded on three simple principles that continue to guide every project we undertake. First, <strong>reliability</strong>—showing up on time, communicating clearly, and following through on every promise. Second, <strong>professionalism</strong>—maintaining the highest standards in appearance, work ethic, and customer service. And third, <strong>quality craftsmanship</strong>—executing every repair and installation with precision and care that stands the test of time.
+                    </p>
+
+                    <p>
+                        Serving McKinney and the Greater Dallas area has been our privilege. From furniture assembly in new homes to plumbing repairs that restore comfort, from window replacements that bring in light to cabinet hardware installations that add functionality—each project represents a home made better, a family made more comfortable, a space made more functional.
+                    </p>
+
+                    <p>
+                        What sets us apart isn't just our skill with tools, but our commitment to transparency. You'll never encounter hidden fees, surprise charges, or unclear estimates with us. We believe that trust is built through honesty, and our pricing reflects that belief. No fuel charges, no unexpected costs—just straightforward, fair pricing for quality work.
+                    </p>
+
+                    <p>
+                        Our team comprises experienced professionals who approach every job with attention to detail and commitment to excellence. Whether it's a simple repair or a complex installation, we bring the same level of care and precision. We understand that your home is your sanctuary, and we treat it with the respect it deserves.
+                    </p>
+
+                    <p>
+                        As we look to the future, our goal remains unchanged: to make homes safer, more functional, and more comfortable through practical, efficient, and high-quality solutions. We're honored to be your trusted handyman service, and we look forward to continuing to serve our community with the same dedication that has defined us from the beginning.
+                    </p>
+                </div>
+
+                <!-- Signature -->
+                <div class="letter-signature">
+                    <div class="signature-image"></div>
+                    <div class="signature-text">
+                        <div class="signature-name">Aslani Handyman</div>
+                        <div class="signature-title">Founder & Lead Craftsman</div>
+                        <div class="signature-title">Aslani Handyman Service</div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">✆</div>
+                            <div class="contact-text">
+                                <strong>Phone:</strong><br>
+                                (469) 657-0977
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉</div>
+                            <div class="contact-text">
+                                <strong>Email:</strong><br>
+                                handymanaslani@gmail.com
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-text">
+                                <strong>Service Area:</strong><br>
+                                McKinney, Texas & Greater Dallas
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">⏰</div>
+                            <div class="contact-text">
+                                <strong>Hours:</strong><br>
+                                7 AM - 10 PM, 7 Days
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="letter-footer">
+                    <p>Aslani Handyman Service LLC • Proudly serving McKinney and surrounding communities since 2023</p>
+                    <p>Professional, reliable, and quality-focused home repair and installation services</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current date
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+
+            // Book opening animation
+            const loadingScreen = document.getElementById('loadingScreen');
+            const bookCover = document.getElementById('bookCover');
+            const bookPages = document.getElementById('bookPages');
+            const pageContent = document.getElementById('pageContent');
+            const letterContainer = document.getElementById('letterContainer');
+
+            // Create GSAP timeline for book opening
+            const bookTimeline = gsap.timeline({
+                onComplete: () => {
+                    // Fade out loading screen
+                    gsap.to(loadingScreen, {
+                        opacity: 0,
+                        duration: 0.5,
+                        delay: 0.5,
+                        onComplete: () => {
+                            loadingScreen.style.display = 'none';
+                            // Fade in letter content
+                            gsap.to(letterContainer, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 1,
+                                ease: 'power2.out'
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Initial state
+            gsap.set(bookCover, { rotationY: 0 });
+            gsap.set(bookPages, { rotationY: 0, scaleX: 1 });
+            gsap.set(pageContent, { opacity: 0, scale: 0.95 });
+
+            // Animate book opening
+            bookTimeline
+                // Pause for dramatic effect
+                .to({}, { duration: 0.5 })
+                
+                // Start opening the cover
+                .to(bookCover, {
+                    rotationY: -60,
+                    duration: 1.2,
+                    ease: 'power2.inOut'
+                }, 0.5)
+                
+                // Pages start to show
+                .to(bookPages, {
+                    rotationY: -10,
+                    scaleX: 0.98,
+                    duration: 1,
+                    ease: 'power2.inOut'
+                }, 0.8)
+                
+                // Page content fades in
+                .to(pageContent, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, 1.2)
+                
+                // Additional page effect (like pages fluttering)
+                .to(pageContent, {
+                    y: -10,
+                    duration: 0.3,
+                    repeat: 2,
+                    yoyo: true,
+                    ease: 'power1.inOut'
+                }, 1.5);
+
+            // Add subtle paper texture effect
+            const paperTexture = () => {
+                const paper = document.querySelector('.letter-paper');
+                paper.style.backgroundImage = `
+                    linear-gradient(90deg, transparent 95%, rgba(139, 115, 85, 0.03) 100%),
+                    linear-gradient(rgba(139, 115, 85, 0.03) 1px, transparent 1px)
+                `;
+                paper.style.backgroundSize = '100% 24px';
+            };
+
+            // Call texture function
+            paperTexture();
+
+            // Add subtle parallax effect on scroll
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.5;
+                
+                const watermark = document.querySelector('.watermark');
+                gsap.to(watermark, {
+                    y: rate * 0.1,
+                    duration: 0.5,
+                    ease: 'power1.out'
+                });
+                
+                const letterPaper = document.querySelector('.letter-paper');
+                gsap.to(letterPaper, {
+                    y: rate * 0.05,
+                    duration: 0.5,
+                    ease: 'power1.out'
+                });
+            });
+
+            // Add subtle typing animation to the first paragraph
+            const firstParagraph = document.querySelector('.letter-body p:first-of-type');
+            const originalText = firstParagraph.innerHTML;
+            
+            // Create a typewriter effect
+            const typeWriter = (element, text, speed = 20) => {
+                let i = 0;
+                element.innerHTML = '';
+                
+                const typing = setInterval(() => {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typing);
+                    }
+                }, speed);
+            };
+
+            // Start typing effect after book animation
+            setTimeout(() => {
+                const text = originalText.replace(/<[^>]*>/g, '');
+                typeWriter(firstParagraph, text, 30);
+            }, 2500);
+
+            // Add ink bleed effect on click
+            document.querySelector('.letter-paper').addEventListener('click', (e) => {
+                const ink = document.createElement('div');
+                ink.style.position = 'absolute';
+                ink.style.left = `${e.clientX - 5}px`;
+                ink.style.top = `${e.clientY - 5}px`;
+                ink.style.width = '10px';
+                ink.style.height = '10px';
+                ink.style.background = 'radial-gradient(circle, rgba(139,115,85,0.2) 0%, rgba(139,115,85,0) 70%)';
+                ink.style.borderRadius = '50%';
+                ink.style.pointerEvents = 'none';
+                ink.style.zIndex = '2';
+                
+                document.querySelector('.letter-paper').appendChild(ink);
+                
+                gsap.to(ink, {
+                    scale: 3,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power2.out',
+                    onComplete: () => ink.remove()
+                });
+            });
+
+            // Add paper fold effect on hover for contact info
+            const contactInfo = document.querySelector('.contact-info');
+            contactInfo.addEventListener('mouseenter', () => {
+                gsap.to(contactInfo, {
+                    rotationY: 2,
+                    rotationX: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            contactInfo.addEventListener('mouseleave', () => {
+                gsap.to(contactInfo, {
+                    rotationY: 0,
+                    rotationX: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+
+            // Simulate paper aging effect on load
+            window.addEventListener('load', () => {
+                const paper = document.querySelector('.letter-paper');
+                gsap.from(paper, {
+                    backgroundColor: '#ffffff',
+                    duration: 2,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
